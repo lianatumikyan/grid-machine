@@ -1,49 +1,52 @@
 'use strict';
-(function IIFE (){
-
+(function IIFE() {
     var board = {
-        btn:null,
-        mainDiv:null,
-        inputValue : null
-
+        form: null,
+        mainDiv: null,
+        inputValue: null,
+        parsedNum: null
     };
 
-    function init () {
-
-        board.btn = document.getElementById("draw");
-        board.mainDiv= document.getElementById('continer');
+    function init() {
+        board.form = document.getElementById('infoForm');
+        board.mainDiv = document.getElementById('continer');
         board.inputValue = document.getElementById('inputNum');
         bindEvents();
     }
 
-
     function bindEvents() {
-        board.btn.addEventListener('click', function (e) {
-            console.log('click');
+        board.form.addEventListener('submit', function (e) {
             e.preventDefault();
             drawGrid();
-        })
+        });
     }
 
-function drawGrid() {
-        board.mainDiv.innerHTML = "";
-        board.inputValue = parseInt(board.inputValue.value);
-        console.log(board.inputValue);
-        if (isNaN(board.inputValue)) {
-            alert('Please enter only number')
-        }
+    function cleaner() {
+        board.mainDiv.innerHTML = '';
+        board.inputValue.value = '';
 
-    for (var i = 0; i < board.inputValue; i++) {
-        var lineDiv = document.createElement('div');
-        board.mainDiv.appendChild(lineDiv);
-        lineDiv.className = 'contineDiv';
-        for (var j = 0; j < board.inputValue; j++) {
-            lineDiv.innerHTML += '<div class="divInLine"></div>';
-
-        }
     }
-init();
-}
-init();
-}  )();
+
+    function drawGrid() {
+        board.parsedNum = parseInt(document.getElementById('inputNum').value);
+        cleaner();
+        if (isNaN(board.parsedNum)) {
+            alert('Please enter only number');
+            return;
+        }
+
+        for (var i = 0; i < board.parsedNum; i++) {
+            var lineDiv = document.createElement('div');
+            board.mainDiv.appendChild(lineDiv);
+            lineDiv.className = 'contineDiv';
+            for (var j = 0; j < board.parsedNum; j++) {
+                lineDiv.innerHTML += '<div class="divInLine"></div>';
+
+            }
+        }
+
+    }
+
+    init();
+})();
 
