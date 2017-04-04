@@ -6,6 +6,7 @@
         inInput: null,
     };
 
+
     function init() {
         board.form = document.getElementById('infoForm');
         board.primary = document.getElementById('continer');
@@ -16,13 +17,14 @@
     function bindEvents() {
         if (board.form) {
             if (board.form.addEventListener) {
-                board.form.addEventListener('submit', drawGrid);
+                board.form.addEventListener('submit', function (e) {
+                    drawGrid(e);
+                    e.preventDefault();
+                })
             } else if (board.form.attachEvent) {
                 board.form.attachEvent('onsubmit', drawGrid);
             }
-            board.form.addEventListener('submit', function (e) {
-                e.preventDefault();
-            })
+
         }
     }
 
@@ -31,13 +33,13 @@
         board.inInput.value = '';
     }
 
-    function drawGrid() {
+    function drawGrid(e) {
         var parsedNum = parseInt(board.inInput.value);
-        cleaner();
         if (isNaN(parsedNum)) {
             alert('Please enter only number');
             return;
         }
+        cleaner();
         for (var i = 0; i < parsedNum; i++) {
             var lineDiv = document.createElement('div');
             board.primary.appendChild(lineDiv);
@@ -46,6 +48,14 @@
                 lineDiv.innerHTML += '<div class="divInLine"></div>';
             }
         }
+    }
+
+    if (window.addEventListener) {
+        window.addEventListener('DOMContentLoaded',function (e) {
+            return;
+        })
+    }else{
+        alert('Dom content is not loaded');
     }
 
     init();
