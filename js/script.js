@@ -2,51 +2,48 @@
 (function IIFE() {
     var board = {
         form: null,
-        mainDiv: null,
-        inputValue: null,
-        parsedNum: null
+        primary: null,
+        inInput: null,
     };
-
     function init() {
         board.form = document.getElementById('infoForm');
-        board.mainDiv = document.getElementById('continer');
-        board.inputValue = document.getElementById('inputNum');
+        board.primary = document.getElementById('continer');
+        board.inInput = document.getElementById('inputNum');
         bindEvents();
     }
-
     function bindEvents() {
-        board.form.addEventListener('submit', function (e) {
+        if(board.form.addEventListener){
+        board.form.addEventListener('submit', eventCalled);
+        }else if(board.form.attachEvent){
+            board.form.attachEvent('onsubmit', eventCalled);
+        }
+        function eventCalled(e){
             e.preventDefault();
             drawGrid();
-        });
+        }
     }
-
     function cleaner() {
-        board.mainDiv.innerHTML = '';
-        board.inputValue.value = '';
-
+        board.primary.innerHTML = '';
+        board.inInput.value = '';
     }
-
     function drawGrid() {
-        board.parsedNum = parseInt(document.getElementById('inputNum').value);
-        cleaner();
-        if (isNaN(board.parsedNum)) {
+         var parsedNum = parseInt(document.getElementById('inputNum').value);
+         if(parsedNum != "" || board.primary.innerHTML != ""){
+             cleaner();
+         }
+        if (isNaN(parsedNum)) {
             alert('Please enter only number');
             return;
         }
-
-        for (var i = 0; i < board.parsedNum; i++) {
+        for (var i = 0; i < parsedNum; i++) {
             var lineDiv = document.createElement('div');
-            board.mainDiv.appendChild(lineDiv);
+            board.primary.appendChild(lineDiv);
             lineDiv.className = 'contineDiv';
-            for (var j = 0; j < board.parsedNum; j++) {
+            for (var j = 0; j < parsedNum; j++) {
                 lineDiv.innerHTML += '<div class="divInLine"></div>';
-
             }
         }
-
     }
-
     init();
 })();
 
