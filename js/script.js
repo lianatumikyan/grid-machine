@@ -5,32 +5,35 @@
         primary: null,
         inInput: null,
     };
+
     function init() {
         board.form = document.getElementById('infoForm');
         board.primary = document.getElementById('continer');
         board.inInput = document.getElementById('inputNum');
         bindEvents();
     }
+
     function bindEvents() {
-        if(board.form.addEventListener){
-        board.form.addEventListener('submit', eventCalled);
-        }else if(board.form.attachEvent){
-            board.form.attachEvent('onsubmit', eventCalled);
-        }
-        function eventCalled(e){
-            e.preventDefault();
-            drawGrid();
+        if (board.form) {
+            if (board.form.addEventListener) {
+                board.form.addEventListener('submit', drawGrid);
+            } else if (board.form.attachEvent) {
+                board.form.attachEvent('onsubmit', drawGrid);
+            }
+            board.form.addEventListener('submit', function (e) {
+                e.preventDefault();
+            })
         }
     }
+
     function cleaner() {
         board.primary.innerHTML = '';
         board.inInput.value = '';
     }
+
     function drawGrid() {
-         var parsedNum = parseInt(document.getElementById('inputNum').value);
-         if(parsedNum != "" || board.primary.innerHTML != ""){
-             cleaner();
-         }
+        var parsedNum = parseInt(board.inInput.value);
+        cleaner();
         if (isNaN(parsedNum)) {
             alert('Please enter only number');
             return;
@@ -44,6 +47,7 @@
             }
         }
     }
+
     init();
 })();
 
