@@ -70,25 +70,6 @@
             }
         }
         cleanInput();
-
-    }
-
-    function colorize() {
-        board.isRuning = true;
-        var red = Math.round(Math.random() * 255);
-        var green = Math.round(Math.random() * 255);
-        var blue = Math.round(Math.random() * 255);
-        var inLineContiner = board.lineContiner[board.line].getElementsByClassName('divInLine');
-        inLineContiner[board.item].style.backgroundColor = 'rgb(' + red + ',' + green + ',' + blue + ')';
-        board.line++;
-        if (board.line == inLineContiner.length) {
-            board.line = 0;
-            board.item++;
-
-        }
-        if (board.item == inLineContiner.length) {
-            clearInt();
-        }
     }
 
     function colorSetInterval() {
@@ -96,6 +77,27 @@
             return;
         }
         board.interval = setInterval(colorize, 1000);
+    }
+
+    function colorize() {
+        var inLineContiner = board.lineContiner[board.line].getElementsByClassName('divInLine');
+        inLineContiner[board.item].style.backgroundColor = choseColor();
+        board.line++;
+        if (board.line == inLineContiner.length) {
+            board.line = 0;
+            board.item++;
+        }
+        if (board.item == inLineContiner.length) {
+            clearInt();
+        }
+        board.isRuning = true;
+    }
+
+    function choseColor() {
+        var red = Math.round(Math.random() * 255);
+        var green = Math.round(Math.random() * 255);
+        var blue = Math.round(Math.random() * 255);
+        return 'rgb(' + red + ',' + green + ',' + blue + ')';
     }
 
     function clearInt() {
